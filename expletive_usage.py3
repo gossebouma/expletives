@@ -32,7 +32,8 @@ for line in fileinput.input(args.files if len(args.files) > 0 else ('-', )) :
 				lemma=graph[i][0]
 				parent = graph[i][1]
 				rel = graph[i][2]
-				if (rel == expl_or_obj ) :
+				relprefix = rel.split(':')[0]
+				if (relprefix == expl_or_obj ) :
 					context = {'deps':[],'parent':""}
 					match = 0
 					for j in graph :
@@ -46,7 +47,7 @@ for line in fileinput.input(args.files if len(args.files) > 0 else ('-', )) :
 					if (len(context['deps']) == 0) :
 						context['deps'] = ['otherpattern']
 					contextdeps = ' '.join(sorted(context['deps']))
-					contextpattern = lemma+' '+contextdeps+' '+context['parent']
+					contextpattern = lemma+' '+rel+' '+contextdeps+' '+context['parent']
 					contexts[contextpattern] += 1
 					if (args.v) :
 						print(text)
